@@ -989,8 +989,7 @@ function buildCard(p) {
       '<div class="img-count-badge">' + images.length + ' imgs</div>' +
       '<div class="carousel-dots">' + dots + '</div>';
   }
-
-  return '<div class="product-card fade-up" id="' + cid + '" data-slides="' + images.length + '" data-current="0" onclick="openPD('' + (p.id||'') + '')" style="cursor:pointer">' +
+  return '<div class="product-card fade-up" id="' + cid + '" data-slides="' + images.length + '" data-current="0" data-pid="' + (p.id||'')+'" onclick="openPD(this)" style="cursor:pointer">' +
     badge +
     '<div class="wish-btn" onclick="toggleWish(this);event.stopPropagation()">&#9825;</div>' +
     '<div class="carousel" onmousedown="startDrag(event,\'' + cid + '\')" ontouchstart="startDrag(event,\'' + cid + '\')">' +
@@ -1347,8 +1346,9 @@ function openPD(productId) {
   }
 
   // Specs — split by · or newlines
-  var specParts = (p.spec || '').split(/[·
-]+/).map(function(s) { return s.trim(); }).filter(Boolean);
+  var specParts = (p.spec || '').replace(/·/g, '
+').split('
+').map(function(s) { return s.trim(); }).filter(Boolean); //.map(function(s) { return s.trim(); }).filter(Boolean);
   var specHtml = specParts.length
     ? specParts.map(function(s) {
         return '<div class="pd-spec-row"><div class="pd-spec-dot"></div><div class="pd-spec-text">' + s + '</div></div>';
